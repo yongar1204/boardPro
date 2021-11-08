@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="/starter-template.css" th:href="@{/starter-template.css}" rel="stylesheet">
+    <title>devForm!</title>
+</head>
+<body>
+<form action="#" th:action="@{/board/create}" th:object="${boardDto}" method="post">
+    <div class="container">
+        <div class="mb-3">
+            <label for="formGroupExampleInput" class="form-label">Title</label>
+            <input type="text" class="form-control" id="formGroupExampleInput" th:field="*{title}" placeholder="Example input placeholder">
+        </div>
+        <div class="mb-3">
+            <label for="formGroupExampleInput2" class="form-label">Content</label>
+            <input type="text" class="form-control" id="formGroupExampleInput2" th:field="*{content}" placeholder="Another input placeholder">
+        </div>
+        <div class="skill">
+            <label for="formGroupExampleInput2" class="form-label">SkillType</label>
+            <select class="form-select" aria-label="Default select example" th:field="*{skillType}">
+                <option th:each="skillTypeValue : ${T(com.example.boardpro.type.SkillType).values()}"
+                        th:value="${skillTypeValue.name()}"
+                        th:text="${skillTypeValue.name()}">
+                        val
+                </option>
+        </select>
+        </div>
+        <div class="col-sm">
+            <label for="formGroupExampleInput2" class="form-label">ExperienceYear</label>
+            <input type="text" class="form-control" placeholder="exYear" aria-label="State" th:field="*{exYear}">
+        </div>
+        <div class="col-sm">
+            <label for="formGroupExampleInput2" class="form-label">Name</label>
+            <input type="text" class="form-control" placeholder="name" aria-label="State" th:field="*{name}">
+        </div>
+        <div class="col-sm">
+            <label for="formGroupExampleInput2" class="form-label">Age</label>
+            <input type="text" class="form-control" placeholder="age" aria-label="Zip" th:field="*{age}">
+        </div>
+        <div class="text-right">
+            <button type="submit" class="btn btn-primary">확인</button>
+            <a type="button" class="btn btn-primary" th:href="@{/board/list}">취소</a>
+<!--            <button type="button" class="btn btn-primary" th:onclick="|deleteBoard(*{id})|">삭제</button>-->
+        </div>
+    </div>
+</form>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+</body>
+</html>

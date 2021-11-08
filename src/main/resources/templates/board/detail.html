@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="fragment/common :: head('게시판')">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- 위 3개의 메타 태그는 *반드시* head 태그의 처음에 와야합니다; 어떤 다른 콘텐츠들은 반드시 이 태그들 *다음에* 와야 합니다 -->
+    <title>spring 게시판</title>
+    <!-- 합쳐지고 최소화된 최신 CSS -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"
+    />
+    <!-- 부가적인 테마 -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css"
+    />
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+    <link
+      href="/starter-template.css"
+      th:href="@{/starter-template.css}"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <nav class="navbar navbar-inverse navbar-fixed-top" th:replace="fragment/common :: menu(board)"></nav>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content rounded-6 shadow">
+            <div class="modal-header border-bottom-0">
+                <h5 class="modal-title" th:text="${board.title}">Modal title</h5>
+            </div>
+            <div class="modal-body py-0">
+                <p th:text="${board.content}">
+                    This is a modal sheet, a variation of the modal that docs itself to the bottom of the viewport like the newer share sheets in iOS.
+                </p>
+            </div>
+            <div class="modal-footer flex-column border-top-0">
+                <a type="button" class="btn btn-lg btn-primary w-100 mx-0 mb-2" th:href="@{/board/form(id=${board.id})}" 
+                th:if="#{principal.username} == ${board.user.username}">수정</a>
+                <!-- 수정기능 권한설정 방법찾기, 현재 비활성화 -->
+                <a type="button" class="btn btn-lg btn-primary w-100 mx-0 mb-2" th:href="@{/board/list}">목록</a>
+            </div>
+        </div>
+    </div>
+    <!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요합니다) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <!-- 모든 컴파일된 플러그인을 포함합니다 (아래), 원하지 않는다면 필요한 각각의 파일을 포함하세요 -->
+    <script src="js/bootstrap.min.js"></script>
+  </body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head th:replace="fragment/common :: head('게시판')">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- 위 3개의 메타 태그는 *반드시* head 태그의 처음에 와야합니다; 어떤 다른 콘텐츠들은 반드시 이 태그들 *다음에* 와야 합니다 -->
+    <title>spring 게시판</title>
+    <!-- 합쳐지고 최소화된 최신 CSS -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"
+    />
+    <!-- 부가적인 테마 -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css"
+    />
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+    <link href="/starter-template.css" th:href="@{/starter-template.css}" rel="stylesheet">
+  </head>
+  <body>
+    <nav class="navbar navbar-inverse navbar-fixed-top" th:replace="fragment/common :: menu(board)">
+    </nav>
+
+    <div class="container">
+      <div class="starter-template">
+        <h2>게시판</h2>
+        <form action="#" th:action="@{/board/create}" th:object="${boardDto}" method="POST">
+          <input type="hidden" th:field="*{id}">
+          <div class="mb-3">
+            <label for="title" class="form-label">제목</label>
+            <input type="text" class="form-control" id="title" th:field="*{title}" th:classappend="${#fields.hasErrors('title')} ? 'is-invalid'">
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">
+              Please choose a title.
+            </div>
+          </div>
+
+          <select class="form-select" aria-label="Default select example" th:field="*{skillType}">
+            <option th:each="skillTypeValue : ${T(com.example.boardpro.type.SkillType).values()}"
+                    th:value="${skillTypeValue.name()}"
+                    th:text="${skillTypeValue.name()}">
+              val
+            </option>
+          </select>
+
+          <div class="mb-3">
+            <label for="content" class="form-label">내용</label>
+            <textarea class="form-control" id="content" rows="3" th:field="*{content}" th:classappend="${#fields.hasErrors('content')} ? 'is-invalid'"></textarea>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('content')}" th:errors="*{content}">
+              Please choose a content.
+            </div>
+          </div>
+          <div class="text-right">
+            <button type="submit" class="btn btn-primary">확인</button>
+            <a type="button" class="btn btn-primary" th:href="@{/board/list}">취소</a>
+            <button type="button" class="btn btn-primary" th:onclick="|deleteBoard(*{id})|">삭제</button>
+
+          </div>
+        </form>
+        <form id="deleteBoard" th:action="@{/board/delete(id=${board.id})}" method="post">
+          <input type="hidden" name="_method" value="delete"/>
+          <button id="delete-btn" class="btn btn-primary">삭제</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요합니다) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <!-- 모든 컴파일된 플러그인을 포함합니다 (아래), 원하지 않는다면 필요한 각각의 파일을 포함하세요 -->
+    <script src="js/bootstrap.min.js"></script>
+    <script>
+      function deleteBoard(id){
+        $.ajax({
+          url: '/api/board/' + id,
+          type: 'DELETE',
+          success: function(result){
+            console.log('result', result);
+            alert('삭제되었습니다.');
+            window.location.href = '/board/list';
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

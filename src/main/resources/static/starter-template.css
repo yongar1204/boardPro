@@ -1,0 +1,28 @@
+body {
+  padding-top: 50px;
+}
+.starter-template {
+  padding: 40px 15px;
+  /* text-align: center; */
+}
+th,td{
+  text-align: center;
+}
+.text-right{
+  margin-top: 10px;
+}
+.pageli{
+  text-align: center;
+}
+
+.btn.btn-primary.mb-3 {
+  padding: revert;
+  margin-left: 5px;
+}
+.row{
+  display: flex;
+  justify-content: flex-end;
+}
+.col-auto{
+  display: flex;
+}
