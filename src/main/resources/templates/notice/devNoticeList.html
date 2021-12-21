@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragment/common :: head('Spring Boot!, Start')">
+    <!-- Required meta tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="#" th:href="@{/starter-template.css}" rel="stylesheet">
+    <title>devList!</title>
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top" th:replace="fragment/common :: menu(notice)"></nav>
+<div class="container">
+    <div class="starter-template">
+        <h1>공지사항</h1>
+        <div>총 건수 : <span th:text="${list.size()}"></span></div>
+        <form class="row g-3" method="GET" th:action="@{/notice/list}">
+            <div class="col-auto">
+                <label for="searchText" class="visually-hidden"></label>
+                <input
+                        type="text"
+                        class="form-control-plaintext"
+                        id="searchText"
+                        name="searchText"
+                        placeholder="검색어"
+                        th:value="${param.searchText}"
+                />
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary mb-3">검색</button>
+            </div>
+        </form>
+        <table class="table">
+            <thead>
+            <tr>
+                <th class="cen" scope="col">No</th>
+                <th class="cen" scope="col">Title</th>
+                <th class="cen" scope="col">CreatTime</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="lists : ${list}">
+                <td th:text="${lists.getNoticeId()}">1</td>
+                <td>
+                    <a
+                            th:text="${lists.getTitle()}"
+                            th:href="@{/notice/detail(id=${lists.getNoticeId()})}">
+                        Mark</a>
+                </td>
+                <td th:text="${#temporals.format(lists.getCreateAt(), 'yyyy-MM-dd HH:mm')}">At</td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="text-right">
+            <a type="button" class="btn btn-primary" th:href="@{/notice/form}" sec:authorize="hasRole('ROLE_ADMIN')">글쓰기</a>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+</body>
+</html>

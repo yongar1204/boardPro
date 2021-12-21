@@ -2,11 +2,9 @@ package com.example.boardpro.model.dto;
 
 import com.example.boardpro.model.entity.BoardEntity;
 import com.example.boardpro.type.SkillType;
-import com.sun.istack.NotNull;
 import lombok.*;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
+import javax.validation.constraints.*;
 
 @Getter
 @Setter
@@ -15,11 +13,17 @@ import javax.validation.constraints.Min;
 @AllArgsConstructor
 public class BoardDto {
         private SkillType skillType;
+        @Min(0)
+        @Max(20)
+        @NotNull(message = "Not Null Ok?")
         private Integer exYear;
         private String name;
+        @Min(value = 18, message = "Invalid(age > 18)")
         private Integer age;
         private String title;
         private String content;
+
+
 
         public static BoardDto fromEntity(BoardEntity boardEntity){
                 return BoardDto.builder()

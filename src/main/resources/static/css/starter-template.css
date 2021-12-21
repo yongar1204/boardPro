@@ -8,6 +8,9 @@ body {
 th,td{
   text-align: center;
 }
+.cen{
+  text-align: center;
+}
 .text-right{
   margin-top: 10px;
 }
@@ -38,4 +41,37 @@ th,td{
 }
 .mainloginbtn{
   margin-right: 5px;
+}
+.modal-title{
+  box-sizing: border-box;
+  width: auto;
+}
+.classify1{
+  margin-top: 20px;
+}
+.replyContainer{
+  width: auto;
+}
+#replyList{
+  display: flex;
+  justify-content: space-between;
+}
+.fileList{
+  display: flex;
+  flex-direction: column;
+}
+.decContent.fileList{
+  display: flex;
+  flex-direction: column;
+}
+.disabled{
+  pointer-events: none;
+  cursor: default;
+}
+.border-dark{
+  border: solid;
+  border-radius: 10px;
+  border-color: darkgrey;
+  padding: 10px;
+  margin: 10px;
 }

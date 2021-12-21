@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org">
-<head>
+<head th:replace="fragment/common :: head('Spring Boot!, Start')">
     <!-- Required meta tags -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,6 +11,7 @@
     <title>devList!</title>
 </head>
 <body>
+<nav class="navbar navbar-inverse navbar-fixed-top" th:replace="fragment/common :: menu(list)"></nav>
 <div class="container">
     <div class="starter-template">
         <h1>게시판</h1>
@@ -34,9 +35,10 @@
         <table class="table">
             <thead>
             <tr>
-                <th scope="col">번호</th>
-                <th scope="col">제목</th>
-                <th scope="col">작성자</th>
+                <th class="cen" scope="col">No</th>
+                <th class="cen" scope="col">Title</th>
+                <th class="cen" scope="col">Skill Type</th>
+                <th class="cen" scope="col">User</th>
             </tr>
             </thead>
             <tbody>
@@ -49,6 +51,7 @@
                         Mark</a>
                 </td>
                 <td th:text="${list.skillType}">skill</td>
+                <td th:text="${list.user.getUserName()}">skill</td>
             </tr>
             </tbody>
         </table>
@@ -79,6 +82,7 @@
                         th:classappend="${searchList.totalPages == searchList.pageable.pageNumber + 1} ? 'disabled'">
                     <a
                             class="page-link"
+                            th:classappend="${searchList.totalPages == searchList.pageable.pageNumber + 1} ? 'disabled'"
                             href="#"
                             th:href="@{/board/list(page=${searchList.pageable.pageNumber + 1}, searchText=${param.searchText})}"
                     >Next</a>

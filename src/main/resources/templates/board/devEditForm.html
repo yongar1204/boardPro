@@ -11,7 +11,7 @@
     <title>devForm!</title>
 </head>
 <body>
-<form action="#" th:action="@{/board/create2}" th:object="${boardDto}" method="post" enctype="multipart/form-data">
+<form action="#" th:action="@{/board/edit(id=${param.id})}" th:object="${editBoardData}" method="post" enctype="multipart/form-data">
     <div class="container">
         <div class="mb-3">
             <label for="formGroupExampleInput" class="form-label">Title</label>
@@ -33,7 +33,7 @@
                         th:text="${skillTypeValue.name()}">
                         val
                 </option>
-            </select>
+        </select>
         </div>
         <div class="col-sm">
             <label for="formGroupExampleInput2" class="form-label">ExperienceYear</label>
@@ -48,7 +48,7 @@
             <input type="text" class="form-control" placeholder="name" aria-label="State" th:field="*{name}"
                    th:classappend="${#fields.hasErrors('name')} ? 'is-invalid'">
             <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">
-                content
+                name
             </div>
         </div>
         <div class="col-sm">
@@ -62,6 +62,13 @@
 
         <div class="col-sm">
             <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3">File Upload</label>
+            <div class="decContent fileList">
+                <div th:each="fileDto:${fileList}">
+                    <div>[[${fileDto.fileName}]] &nbsp&nbsp
+                        <a class="fas fa-times" th:onclick="|deleteFile(${fileDto.id})|"></a>
+                    </div>
+                </div>
+            </div>
             <div class="col-sm-12 col-md-7">
                 <input type="file" multiple="multiple" name="img" id="img">
             </div>
@@ -75,5 +82,22 @@
     </div>
 </form>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<script src="https://kit.fontawesome.com/464a3068ae.js" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+<script>
+    function deleteFile(id){
+        $.ajax({
+            url: '/api/file/delete/' + id,
+            type: 'DELETE',
+            success: function(result){
+                console.log('result', result);
+                alert('삭제되었습니다.');
+                window.location.reload();
+                // window.location.href = '/board/list';
+            }
+        });
+    }
+</script>
 </body>
 </html>

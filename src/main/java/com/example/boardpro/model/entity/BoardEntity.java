@@ -8,6 +8,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
@@ -30,10 +32,18 @@ public class BoardEntity {
     private String title;
     private String content;
 
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
+    private List<FileEntity> files = new ArrayList<>();
+
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
+    private List<ReplyEntity> reply = new ArrayList<>();
     @CreatedDate
     private LocalDateTime createdAt;
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
+    @JoinColumn(name = "userId", referencedColumnName = "id")
+    @ManyToOne()
+    private UserEntity user;
 
 }

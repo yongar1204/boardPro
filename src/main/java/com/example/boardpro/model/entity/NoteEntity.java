@@ -10,25 +10,25 @@ import java.time.LocalDateTime;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-@Table(name = "Reply")
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ReplyEntity {
+@Table(name = "Note")
+public class NoteEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
-    private String name;
+    private String title;
     private String content;
-
-    @JoinColumn(name = "boardId", referencedColumnName = "id")
-    @ManyToOne
-    private BoardEntity board;
     @CreatedDate
-    private LocalDateTime createdAt;
+    private LocalDateTime createAt;
     @LastModifiedDate
-    private LocalDateTime updatedAt;
+    private LocalDateTime updateAt;
+
+    @ManyToOne()
+    @JoinColumn(name = "userId", referencedColumnName = "id")
+    private UserEntity user;
 }
+

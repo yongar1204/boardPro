@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org">
-<head>
+<head th:replace="fragment/common :: head('Spring Boot!, Start')">
     <!-- Required meta tags -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,24 +11,88 @@
     <title>devForm!</title>
 </head>
 <body>
+<nav class="navbar navbar-inverse navbar-fixed-top" th:replace="fragment/common :: menu(home)"></nav>
+
 <div class="modal-dialog" role="document">
+    <div class="classify1">본문</div>
     <div class="modal-content rounded-6 shadow">
         <div class="modal-header border-bottom-0">
             <h5 class="modal-title" th:text="${devDetail.title}">Modal title</h5>
         </div>
         <div class="modal-body py-0">
-            <p th:text="${devDetail.content}">
-                This is a modal sheet, a variation of the modal that docs itself to the bottom of the viewport like the newer share sheets in iOS.
-            </p>
+            <div class="devDetail">
+                <p th:text="'SkillType : ' + ${devDetail.skillType}">
+                    skillType
+                </p>
+                <p th:text="'ExperienceYear : ' + ${devDetail.exYear}">
+                    exYear
+                </p>
+                <p th:text="'Age : ' + ${devDetail.age}">
+                    age
+                </p>
+            </div>
+            <div class="decContent">
+                <p th:text="'Content : ' + ${devDetail.content}">
+                    Content
+                </p>
+            </div>
+            <div class="decContent fileList">
+                <a th:each="fileDto:${fileList}"
+                   th:text="'FileName : ' +  ${fileDto.fileName}"
+                   th:href="@{'/board/downLoad1/' + ${fileDto.id}}">
+                    fileName
+                </a>
+            </div>
         </div>
         <div class="modal-footer flex-column border-top-0">
-            <a type="button" class="btn btn-lg btn-primary w-100 mx-0 mb-2" th:href="@{/board/form(id=${param.id})}"
-               >수정</a>
-            <!-- 수정기능 권한설정 방법찾기, 현재 비활성화 -->
-            <a type="button" class="btn btn-lg btn-primary w-100 mx-0 mb-2" th:href="@{/board/list}">목록</a>
+
+            <form id="deleteBoard" th:action="@{/board/delete(id=${param.id})}" method="post">
+                <a type="button" class="btn btn-primary" th:href="@{/board/edit(id=${param.id})}">수정</a>
+                <a type="button" class="btn btn-primary" th:href="@{/board/list}">목록</a>
+                <input type="hidden" name="_method" value="delete"/>
+                <button id="delete-btn" class="btn btn-primary">삭제</button>
+            </form>
+        </div>
+    </div>
+    <div class="replyContainer">
+        <div class="classify1">댓글</div>
+        <div>
+            <tr th:each="list : ${replyList}">
+                <div class="modal-content rounded-6 shadow" id="replyList">
+                    <div>
+                        <div>
+                            <label>Name : </label>
+                            <td th:text="${list.name}">name</td>
+                        </div>
+                        <div>
+                            <label>Content : </label>
+                            <td th:text="${list.content}">content</td>
+                        </div>
+                        <div class="line"></div>
+                    </div>
+                    <a class="fas fa-times" th:href="@{'/reply/delete/' + ${list.id}}"></a>
+                </div>
+            </tr>
+        </div>
+        <div class="classify1">댓글입력</div>
+        <div class="modal-content rounded-6 shadow">
+            <form action="#" th:action="@{/reply/create(id=${param.id})}" th:object="${replyDto}" method="post">
+                <div class="mb-3">
+                    <label for="formGroupExampleInput" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="formGroupExampleInput" th:field="*{name}" placeholder="Example input placeholder">
+                </div>
+                <div class="mb-3">
+                    <label for="formGroupExampleInput2" class="form-label">Content</label>
+                    <input type="text" class="form-control" id="formGroupExampleInput2" th:field="*{content}" placeholder="Another input placeholder">
+                </div>
+                <div class="text-right">
+                    <button type="submit" class="btn btn-primary">확인</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<script src="https://kit.fontawesome.com/464a3068ae.js" crossorigin="anonymous"></script>
 </body>
 </html>
